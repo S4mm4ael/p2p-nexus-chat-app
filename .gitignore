@@ -1,43 +1,43 @@
-# Logs
-logs
-*.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
+# Learn more https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files
 
-# Dependencies
+# dependencies
 node_modules/
-.pnp
-.pnp.js
 
-# Testing
-coverage/
-
-# Production
-build/
+# Expo
+.expo/
 dist/
+web-build/
+expo-env.d.ts
 
-# Misc
+# Native
+.kotlin/
+*.orig.*
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+
+# Metro
+.metro-health-check*
+
+# debug
+npm-debug.*
+yarn-debug.*
+yarn-error.*
+
+# macOS
 .DS_Store
-.env
-.env.local
-.env.*.local
-.vscode/
-.idea/
+*.pem
 
-# React Native
-*.jsbundle
-*.apk
-*.ipa
-android/app/debug/
-android/app/release/
-ios/Pods/
+# local env files
+.env*.local
 
-# Metro bundler
-.metro-bundler-cache/
+# typescript
+*.tsbuildinfo
 
-# CocoaPods
-Pods/
+app-example
 
-# VS Code
-.vscode/
+# generated native folders
+/ios
+/android
