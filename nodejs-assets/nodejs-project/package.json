@@ -1,0 +1,10 @@
+{
+  "name": "nodejs-mobile-p2p-nexus",
+  "version": "1.0.0",
+  "description": "Node.js runtime for P2P Nexus Chat App",
+  "main": "main.js",
+  "scripts": {
+    "start": "node main.js"
+  },
+  "dependencies": {}
+}

@@ -1,13 +1,15 @@
 import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
+import { Button, Platform, StyleSheet, View } from 'react-native';
 
 import { HelloWave } from '@/components/hello-wave';
 import ParallaxScrollView from '@/components/parallax-scroll-view';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
+import { useNodeJS } from '@/hooks/use-nodejs';
 import { Link } from 'expo-router';
 
 export default function HomeScreen() {
+  const { sendMessage, isReady, lastMessage } = useNodeJS();
   return (
     <ParallaxScrollView
       headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
@@ -35,6 +37,24 @@ export default function HomeScreen() {
           </ThemedText>{' '}
           to open developer tools.
         </ThemedText>
+      </ThemedView>
+      <ThemedView style={styles.stepContainer}>
+        <ThemedText type="subtitle">Node.js Runtime Status</ThemedText>
+        <ThemedText>
+          Status: <ThemedText type="defaultSemiBold">{isReady ? '✅ Ready' : '⏳ Initializing...'}</ThemedText>
+        </ThemedText>
+        {lastMessage && (
+          <View style={styles.messageBox}>
+            <ThemedText type="defaultSemiBold">Last Message:</ThemedText>
+            <ThemedText style={styles.messageText}>{JSON.stringify(lastMessage, null, 2)}</ThemedText>
+          </View>
+        )}
+        {isReady && (
+          <View style={styles.buttonContainer}>
+            <Button title="Send Ping" onPress={() => sendMessage({ type: 'ping' })} />
+            <Button title="Initialize P2P" onPress={() => sendMessage({ type: 'initialize' })} />
+          </View>
+        )}
       </ThemedView>
       <ThemedView style={styles.stepContainer}>
         <Link href="/modal">
@@ -94,5 +114,20 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     position: 'absolute',
+  },
+  messageBox: {
+    backgroundColor: '#f0f0f0',
+    padding: 10,
+    borderRadius: 8,
+    marginTop: 8,
+  },
+  messageText: {
+    fontSize: 12,
+    fontFamily: 'monospace',
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    gap: 10,
+    marginTop: 8,
   },
 });

@@ -3,5 +3,11 @@
     "source.fixAll": "explicit",
     "source.organizeImports": "explicit",
     "source.sortMembers": "explicit"
+  },
+  "workbench.colorCustomizations": {
+    "editorLineNumber.foreground": "#000",
+    "activityBar.background": "#0D3333",
+    "titleBar.activeBackground": "#124748",
+    "titleBar.activeForeground": "#F5FCFC"
   }
 }
