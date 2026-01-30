@@ -98,27 +98,53 @@ export function useNodeJS(): NodeJSRPC {
   useEffect(() => {
     // Start Node.js runtime
     console.log('[RPC] Starting Node.js runtime...');
-    nodejs.start('main.js');
+    console.log('[RPC] Calling nodejs.start("main.js")...');
+    
+    try {
+      nodejs.start('main.js');
+      console.log('[RPC] nodejs.start() completed successfully');
+    } catch (error) {
+      console.error('[RPC] Error starting Node.js:', error);
+    }
 
     // Capture refs for cleanup
     const pendingRequests = pendingRequestsRef.current;
     const eventListeners = eventListenersRef.current;
 
     // Set up message listener
+    console.log('[RPC] Setting up message listener...');
     listenerRef.current = nodejs.channel.addListener(
       'message',
       (msg: any) => {
-        console.log('[RPC] Received from Node.js:', msg);
+        console.log('[RPC] ✅ Received from Node.js:', JSON.stringify(msg, null, 2));
 
         if (msg.type === 'rpc-response') {
+          console.log('[RPC] Handling RPC response');
           // Handle RPC response
           handleRPCResponse(msg);
         } else if (msg.type === 'rpc-event') {
+          console.log('[RPC] Handling RPC event:', msg.eventType);
           // Handle RPC event
           handleRPCEvent(msg);
+        } else if (msg.type === 'node-ready') {
+          // COMPATIBILITY: Handle old format (from cached build)
+          console.log('[RPC] Handling legacy node-ready event');
+          handleRPCEvent({
+            eventType: 'node.ready',
+            timestamp: Date.now(),
+            data: {
+              nodeVersion: msg.nodeVersion,
+              platform: msg.platform,
+              arch: msg.arch,
+            },
+          });
+        } else {
+          console.warn('[RPC] Unknown message type:', msg.type);
         }
       }
     );
+    
+    console.log('[RPC] Message listener set up successfully');
 
     // Cleanup
     return () => {

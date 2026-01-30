@@ -214,6 +214,7 @@ async function processMessage(msg) {
 }
 
 // Send initialization message to React Native
+console.log('[Node.js] Sending node.ready event to React Native...');
 sendRPCEvent('node.ready', {
   nodeVersion: process.version,
   platform: process.platform,
@@ -222,6 +223,7 @@ sendRPCEvent('node.ready', {
 });
 
 console.log('[RPC] Ready to receive RPC calls');
+console.log('[RPC] Node.js is fully initialized and listening!');
 
 // Handle process termination
 process.on('SIGTERM', async () => {
